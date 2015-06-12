@@ -2,7 +2,7 @@ FROM ubuntu:latest
 MAINTAINER Hollman Enciso <hollman.enciso@gmail.com>
 #Upgrade the latest packages of ubuntu and install apache, php and some basic libs
 RUN apt-get update && apt-get -y dist-upgrade
-RUN apt-get install -y apache2 php5 php5-gd php5-imagick php5-imap php5-mcrypt php5-memcached php5-mysql
+RUN apt-get install -y apache2 php5 php5-gd php5-imagick php5-imap php5-mcrypt php5-memcached php5-mysql mysql-client
 
 #Volume
 VOLUME ["/var/www/html/"]

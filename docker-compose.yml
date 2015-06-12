@@ -1,5 +1,6 @@
 web:
   build: .
-  command: service apache2 restart
   ports:
-   - "80:80"
+   - "80"
+  links:
+    
