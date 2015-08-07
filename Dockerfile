@@ -1,11 +1,22 @@
 FROM ubuntu:latest
 MAINTAINER Hollman Enciso <hollman.enciso@gmail.com>
-#Upgrade the latest packages of ubuntu and install apache, php and some basic libs
-RUN apt-get update && apt-get -y dist-upgrade
-RUN apt-get install -y apache2 php5 php5-gd php5-imagick php5-imap php5-mcrypt php5-memcached php5-mysql mysql-client
 
-#Volume
-VOLUME ["/var/www/html/"]
+#upgrade our OS and install the neccesary packages
+RUN apt-get update && apt-get -y dist-upgrade
+RUN apt-get install -y apt-mirror apache2
+RUN rm /var/www/html/index.html
+
+#Add the file with all repository that we need
+ADD files/mirror.list /etc/apt/
+
+#Add crontalb to update your mirror server every days at 4 AM -- you can change this
+RUN echo 0 4 * * * apt-mirror  > /var/spool/apt-mirror/var/cron.log
+
+#Start downloading the pachages for the mirror
+RUN apt-mirror
+
+#create a symbolic link of the mirror to the document root of apache
+RUN ln -s /var/spool/apt-mirror/skel/archive.ubuntu.com/ubuntu/ /var/www/html/ubuntu
 
 #Set some apache variables
 ENV APACHE_RUN_USER www-data
