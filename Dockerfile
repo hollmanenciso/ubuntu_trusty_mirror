@@ -10,7 +10,7 @@ RUN rm /var/www/html/index.html
 ADD files/mirror.list /etc/apt/
 
 #Add crontalb to update your mirror server every days at 4 AM -- you can change this
-RUN echo 0 4 * * * apt-mirror  > /var/spool/apt-mirror/var/cron.log
+RUN echo "0 4 * * * apt-mirror  > /var/spool/apt-mirror/var/cron.log" >> /etc/crontab
 
 #Start downloading the pachages for the mirror
 RUN apt-mirror
